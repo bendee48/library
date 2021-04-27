@@ -1,0 +1,22 @@
+body {
+  font-family: calibri;
+}
+
+.container {
+  display: flex;
+}
+
+.card {
+  height: 100%;
+  width: 100%;
+  margin: 1rem;
+  background-color: blueviolet;
+}
+
+.card-body {
+  padding: 5%;
+}
+
+h5, h3 {
+  margin: 0;
+}
