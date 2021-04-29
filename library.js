@@ -17,12 +17,14 @@ function addBook() {
   const pages = window.prompt("Number of pages?");
   const read = window.prompt("Read?");
 
-  const book = new Book(title, author);
+  const book = new Book(title, author, pages, read);
   library.push(book);
+  displayBooks();
 }
 
 function displayBooks() {
   const container = document.querySelector('.container');
+  container.innerHTML = null;
 
   library.forEach(book => {
     const card = document.createElement('div');
@@ -42,6 +44,7 @@ function displayBooks() {
     read.textContent = `Read: ${book.read}`;
     
     container.append(card);
-    console.log(card)
   });
 }
+
+
