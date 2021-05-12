@@ -10,8 +10,23 @@
 </head>
 <body>
   <main>
-    <button onclick="addBook()">Add New Book</button>
-    <div class='container'>
+    <header>
+      <button id="addButton">Add a new book</button>
+      <form action="" method="" id="bookForm">
+        <input type="text" name="title" id="title" placeholder="title" required>
+        <input type="text" name="author" id="author" placeholder="author" required>
+        <input type="text" name="pages" id="pages" placeholder="pages" required>
+        <fieldset>
+          <legend>Read?</legend>
+          <input type="radio" name="read" id="readYes" value="yes" required>
+          <label for="readYes">yes</label>
+          <input type="radio" name="read" id="readNo" value="no">
+          <label for="readNo">no</label>
+        </fieldset>
+        <input type="submit" name="submit" value="send">
+      </form>
+    </header>
+    <div class='books-container'>
     </div>
   </main>
 <script src="library.js"></script>

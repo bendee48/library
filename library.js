@@ -1,8 +1,15 @@
-const deus = new Book('Deus Ex', 'Sarah Pains', 365, true);
-const booze = new Book('Booze', 'Rob James', 59, false);
-const bible = new Book('The Bible', 'Jeff Christ', 1235, true);
+const deus = new Book('Deus Ex', 'Sarah Pains', 365, 'yes');
+const booze = new Book('Booze', 'Rob James', 59, 'no');
+const bible = new Book('The Bible', 'Jeff Christ', 1235, 'yes');
 const library = [];
 library.push(deus, booze, bible);
+
+const form = document.querySelector('#bookForm');
+const title = document.querySelector('#title');
+const author = document.querySelector('#author');
+const pages = document.querySelector('#pages');
+const read = document.getElementsByName('read');
+const addButton = document.querySelector('#addButton');
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -11,19 +18,18 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
-function addBook() {
-  const title = window.prompt("Enter book title");
-  const author = window.prompt("Enter book author");
-  const pages = window.prompt("Number of pages?");
-  const read = window.prompt("Read?");
+function addBook(e) {
+  e.preventDefault();
+  const hasRead = Array.from(read).find(option => option.checked);
+  const book = new Book(title.value, author.value, pages.value, hasRead.value);
 
-  const book = new Book(title, author, pages, read);
   library.push(book);
   displayBooks();
+  form.reset();
 }
 
 function displayBooks() {
-  const container = document.querySelector('.container');
+  const container = document.querySelector('.books-container');
   container.innerHTML = null;
 
   library.forEach(book => {
@@ -46,5 +52,13 @@ function displayBooks() {
     container.append(card);
   });
 }
+
+function showForm() {
+  console.log(form)
+  form.classList.add('show_form');
+}
+
+form.addEventListener('submit', addBook);
+addButton.addEventListener('click', showForm);
 
 
