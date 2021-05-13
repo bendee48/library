@@ -83,6 +83,10 @@ form {
   padding: 5%;
 }
 
+.card-footer {
+  padding: 3%;
+}
+
 card h5, 
 card h3 {
   margin: 0;

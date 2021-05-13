@@ -32,33 +32,46 @@ function displayBooks() {
   const container = document.querySelector('.books-container');
   container.innerHTML = null;
 
-  library.forEach(book => {
+  library.forEach((book, index) => {
     const card = document.createElement('div');
     const cardBody = document.createElement('div');
+    const cardFooter = document.createElement('div');
     const bookTitle = document.createElement('h3');
     const bookAuthor = document.createElement('h5');
     const pages = document.createElement('p');
     const read = document.createElement('p');
+    const removeButton = document.createElement('button');
 
+    removeButton.setAttribute('data-index', index);
     card.classList.add('card');
     cardBody.classList.add('card-body');
-    card.append(cardBody);
+    cardFooter.classList.add('card-footer');
+    card.append(cardBody, cardFooter);
     cardBody.append(bookTitle, bookAuthor, pages, read);
+    cardFooter.append(removeButton);
     bookTitle.textContent = `Title: ${book.title}`;
     bookAuthor.textContent = `Author: ${book.author}`;
     pages.textContent = `Pages: ${book.pages}`;
     read.textContent = `Read: ${book.read}`;
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener('click', removeBook);
     
     container.append(card);
   });
 }
 
 function showForm() {
-  console.log(form)
   form.classList.add('show_form');
+}
+
+function removeBook() {
+  library.splice(this.dataset.index, 1);
+  displayBooks();
 }
 
 form.addEventListener('submit', addBook);
 addButton.addEventListener('click', showForm);
+
+displayBooks();
 
 
