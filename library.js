@@ -41,20 +41,30 @@ function displayBooks() {
     const pages = document.createElement('p');
     const read = document.createElement('p');
     const removeButton = document.createElement('button');
+    const readCheckbox = document.createElement('input');
 
-    removeButton.setAttribute('data-index', index);
+    card.setAttribute('data-index', index);
+    readCheckbox.type = "checkbox";
+    readCheckbox.name = "readCheckbox";
+    readCheckbox.id = "readCheckbox"; 
+    readCheckbox.required = true; 
     card.classList.add('card');
     cardBody.classList.add('card-body');
     cardFooter.classList.add('card-footer');
     card.append(cardBody, cardFooter);
     cardBody.append(bookTitle, bookAuthor, pages, read);
     cardFooter.append(removeButton);
+    cardFooter.append(readCheckbox);
+    if (book.read === 'yes') {
+      readCheckbox.checked = true;
+    }
     bookTitle.textContent = `Title: ${book.title}`;
     bookAuthor.textContent = `Author: ${book.author}`;
     pages.textContent = `Pages: ${book.pages}`;
     read.textContent = `Read: ${book.read}`;
     removeButton.textContent = "Remove";
     removeButton.addEventListener('click', removeBook);
+    readCheckbox.addEventListener('change', toggleRead)
     
     container.append(card);
   });
@@ -65,8 +75,13 @@ function showForm() {
 }
 
 function removeBook() {
-  library.splice(this.dataset.index, 1);
+  library.splice(this.parentElement.parentElement.dataset.index, 1);
   displayBooks();
+}
+
+function toggleRead() {
+  const book = library[this.parentElement.parentElement.dataset.index];
+  book.read = this.checked;
 }
 
 form.addEventListener('submit', addBook);
