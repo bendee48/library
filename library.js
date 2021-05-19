@@ -1,6 +1,6 @@
-const deus = new Book('Deus Ex', 'Sarah Pains', 365, 'yes');
-const booze = new Book('Booze', 'Rob James', 59, 'no');
-const bible = new Book('The Bible', 'Jeff Christ', 1235, 'yes');
+const deus = new Book('Pride and Prejudice', 'Jane Austen', 279, 'no');
+const booze = new Book('The Book Thief', 'Markus Zusak', 552, 'yes');
+const bible = new Book('Animal Farm', 'George Orwell', 141, 'yes');
 const library = [];
 library.push(deus, booze, bible);
 
@@ -33,13 +33,11 @@ function bookCardBody(book) {
   const bookTitle = document.createElement('h3');
   const bookAuthor = document.createElement('h5');
   const pages = document.createElement('p');
-  const read = document.createElement('p');
 
   bookTitle.textContent = `Title: ${book.title}`;
   bookAuthor.textContent = `Author: ${book.author}`;
   pages.textContent = `Pages: ${book.pages}`;
-  read.textContent = `Read: ${book.read}`;
-  cardBody.append(bookTitle, bookAuthor, pages, read);
+  cardBody.append(bookTitle, bookAuthor, pages);
   cardBody.classList.add('card-body');
 
   return cardBody;
@@ -48,7 +46,11 @@ function bookCardBody(book) {
 function bookCardFooter(book) {
   const cardFooter = document.createElement('div');
   const removeButton = document.createElement('button');
+  const readCheckboxContainer = document.createElement('div');
   const readCheckbox = document.createElement('input');
+  const readCheckboxLabel = document.createElement('label');
+
+  readCheckboxContainer.id = 'checkboxContainer';
 
   readCheckbox.type = "checkbox";
   readCheckbox.name = "readCheckbox";
@@ -57,12 +59,19 @@ function bookCardFooter(book) {
   if (book.read === 'yes') readCheckbox.checked = true;
   readCheckbox.addEventListener('change', toggleRead);
 
+  readCheckboxLabel.for = "readCheckbox";
+  readCheckboxLabel.textContent = "read?";
+
   removeButton.textContent = "Remove";
+  removeButton.classList.add('btn','btn-remove');
   removeButton.addEventListener('click', removeBook);
 
   cardFooter.classList.add('card-footer');
   cardFooter.append(removeButton);
-  cardFooter.append(readCheckbox);
+  cardFooter.append(readCheckboxContainer);
+  readCheckboxContainer.append(readCheckbox, readCheckboxLabel);
+  // cardFooter.append(readCheckbox);
+  // cardFooter.append(readCheckboxLabel);
 
   return cardFooter;
 }

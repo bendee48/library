@@ -63,6 +63,12 @@ header {
   color: white;
 }
 
+.btn-remove {
+  background: red;
+  padding: .5rem;
+}
+
+
 /*Form*/
 
 form {
@@ -107,7 +113,6 @@ form input[type="submit"] {
   margin-left: 1rem;
 }
 
-
 .books-container {
   display: flex;
   flex-wrap: wrap;
@@ -119,18 +124,33 @@ form input[type="submit"] {
   height: 20%;
   width: 20%;
   margin: 1rem;
-  background-color: blueviolet;
+  background-color: rgb(202, 87, 236);
+  box-shadow: 3px 3px 7px 1px gray;
 }
 
 .card-body {
-  padding: 5%;
+  padding: 8%;
+}
+
+.card-body h3, 
+.card-body h5 {
+  font-size: 1.1rem;
+}
+
+.card-body * {
+  margin-top: .5rem;
 }
 
 .card-footer {
-  padding: 3%;
+  padding: 7% 20%;
 }
 
-card h5, 
-card h3 {
-  margin: 0;
+.card-footer input[type="checkbox"] {
+  margin-left: .5rem;
+}
+
+#checkboxContainer {
+  display: inline-block;
+  float: right;
+  line-height: 2rem;
 }
