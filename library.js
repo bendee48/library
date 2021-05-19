@@ -1,7 +1,7 @@
 const deus = new Book('Pride and Prejudice', 'Jane Austen', 279, 'no');
 const booze = new Book('The Book Thief', 'Markus Zusak', 552, 'yes');
 const bible = new Book('Animal Farm', 'George Orwell', 141, 'yes');
-const library = [];
+let library = [];
 library.push(deus, booze, bible);
 
 const form = document.querySelector('#bookForm');
@@ -24,8 +24,9 @@ function addBook(e) {
   const book = new Book(title.value, author.value, pages.value, hasRead.value);
 
   library.push(book);
-  displayBooks();
   form.reset();
+  saveLibrary();
+  displayBooks();
 }
 
 function bookCardBody(book) {
@@ -104,17 +105,29 @@ function showForm() {
 
 function removeBook() {
   library.splice(this.parentElement.parentElement.dataset.index, 1);
+  saveLibrary();
   displayBooks();
 }
 
 function toggleRead() {
-  const book = library[this.parentElement.parentElement.dataset.index];
+  const book = library[this.parentElement.parentElement.parentElement.dataset.index];
   book.read = this.checked;
+}
+
+function saveLibrary() {
+  localStorage.setItem("library", JSON.stringify(library))
+}
+
+function loadLibrary() {
+  if (localStorage.getItem('library')) {
+    library = JSON.parse(localStorage.getItem('library'));
+  } 
 }
 
 form.addEventListener('submit', addBook);
 addButton.addEventListener('click', showForm);
 
+loadLibrary();
 displayBooks();
 
 
