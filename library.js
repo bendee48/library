@@ -71,8 +71,6 @@ function bookCardFooter(book) {
   cardFooter.append(removeButton);
   cardFooter.append(readCheckboxContainer);
   readCheckboxContainer.append(readCheckbox, readCheckboxLabel);
-  // cardFooter.append(readCheckbox);
-  // cardFooter.append(readCheckboxLabel);
 
   return cardFooter;
 }
