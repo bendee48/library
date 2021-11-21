@@ -1,21 +1,42 @@
-const deus = new Book('Pride and Prejudice', 'Jane Austen', 279, 'no');
-const booze = new Book('The Book Thief', 'Markus Zusak', 552, 'yes');
-const bible = new Book('Animal Farm', 'George Orwell', 141, 'yes');
-let library = [];
-library.push(deus, booze, bible);
+class Book {
+  constructor({title, author, pages, read}) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 
-const form = document.querySelector('#bookForm');
-const title = document.querySelector('#title');
-const author = document.querySelector('#author');
-const pages = document.querySelector('#pages');
-const read = document.getElementsByName('read');
-const addButton = document.querySelector('#addButton');
+  get title() {
+    return this._title;
+  }
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+  set title(title) {
+    this._title = title;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  set author(author) {
+    this._author = author;
+  }
+
+  get pages() {
+    return this._pages;
+  }
+
+  set pages(pages) {
+    this._pages = pages;
+  }
+
+  get read() {
+    return this._read;
+  }
+
+  set read(read) {
+    this._read = read;
+  }
 }
 
 function addBook(e) {
