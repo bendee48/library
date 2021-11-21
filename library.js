@@ -39,54 +39,47 @@ class Book {
   }
 }
 
-function addBook(e) {
-  e.preventDefault();
-  const hasRead = Array.from(read).find(option => option.checked);
-  const book = new Book(title.value, author.value, pages.value, hasRead.value);
+const pride = new Book({title: 'Pride and Prejudice', author: 'Jane Austen', pages: 279, read: 'no'});
+const thief = new Book({title: 'The Book Thief', author: 'Markus Zusak', pages: 552, read: 'yes'});
+const farm = new Book({title: 'Animal Farm', author: 'George Orwell', pages: 141, read: 'yes'});
 
-  library.push(book);
-  form.reset();
-  saveLibrary();
-  displayBooks();
-}
-
-function bookCardBody(book) {
-  const cardBody = document.createElement('div');
-  const bookTitle = document.createElement('h3');
-  const bookAuthor = document.createElement('h5');
-  const pages = document.createElement('p');
-
-  bookTitle.textContent = `Title: ${book.title}`;
-  bookAuthor.textContent = `Author: ${book.author}`;
-  pages.textContent = `Pages: ${book.pages}`;
-  cardBody.append(bookTitle, bookAuthor, pages);
-  cardBody.classList.add('card-body');
+const form = document.querySelector('#bookForm');
 
   return cardBody;
 }
 
-function bookCardFooter(book) {
-  const cardFooter = document.createElement('div');
-  const removeButton = document.createElement('button');
-  const readCheckboxContainer = document.createElement('div');
-  const readCheckbox = document.createElement('input');
-  const readCheckboxLabel = document.createElement('label');
+class Library {
+  library = [];
 
-  readCheckboxContainer.id = 'checkboxContainer';
+  addBook(book) {
+    this.library.push(book);
+  }
+  // CHANGE TO ADD MULITPLES BOOKS AT A TIME
 
-  readCheckbox.type = "checkbox";
-  readCheckbox.name = "readCheckbox";
-  readCheckbox.id = "readCheckbox"; 
-  readCheckbox.required = true; 
-  if (book.read === 'yes') readCheckbox.checked = true;
-  readCheckbox.addEventListener('change', toggleRead);
+  addBookByForm(e) {
+    e.preventDefault(); // Prevent submit form refreshing page
+    let formData = new FormData(form);
+    let bookDetails = {title: formData.get('title'),
+                       author: formData.get('author'),
+                       pages: formData.get('pages'),
+                       read: formData.get('read')}
+    const book = new Book(bookDetails);
 
-  readCheckboxLabel.for = "readCheckbox";
-  readCheckboxLabel.textContent = "read?";
+    this.library.push(book);
+    form.reset();
+    // SAVE LIBRARY for cache save
+    // REDISPLAY BOOKS
+  }
 
-  removeButton.textContent = "Remove";
-  removeButton.classList.add('btn','btn-remove');
-  removeButton.addEventListener('click', removeBook);
+  get allBooks() {
+    return this.library;
+  }
+}
+
+let library = new Library();
+library.addBook(pride);
+library.addBook(thief);
+library.addBook(farm);
 
   cardFooter.classList.add('card-footer');
   cardFooter.append(removeButton);
