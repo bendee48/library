@@ -39,13 +39,6 @@ class Book {
   }
 }
 
-const pride = new Book({title: 'Pride and Prejudice', author: 'Jane Austen', pages: 279, read: 'no'});
-const thief = new Book({title: 'The Book Thief', author: 'Markus Zusak', pages: 552, read: 'yes'});
-const farm = new Book({title: 'Animal Farm', author: 'George Orwell', pages: 141, read: 'yes'});
-
-const form = document.querySelector('#bookForm');
-
-
 class Library {
   library = [];
 
@@ -56,7 +49,9 @@ class Library {
 
   addBookByForm(e) {
     e.preventDefault(); // Prevent submit form refreshing page
-    let formData = new FormData(form);
+    
+    let newForm = e.srcElement;
+    let formData = new FormData(newForm);
     let bookDetails = {title: formData.get('title'),
                        author: formData.get('author'),
                        pages: formData.get('pages'),
@@ -64,7 +59,7 @@ class Library {
     const book = new Book(bookDetails);
 
     this.library.push(book);
-    form.reset();
+    newForm.reset();
     this.saveLibrary();
     Display.displayBooks(); // REDISPLAY BOOKS
   }
@@ -85,25 +80,18 @@ class Library {
   }
 }
 
-let lib = new Library();
-lib.addBook(pride);
-lib.addBook(thief);
-lib.addBook(farm);
-
-const addButton = document.querySelector('#addButton');
-
 class Display {
   static displayBooks() {
     let container = document.querySelector('.books-container');
     let html = "";
 
-    console.log(lib.allBooks)
     lib.allBooks.forEach((book, idx) => {
       html += this.bookCard(book, idx);
     });
     container.innerHTML = html;
     Events.setRemoveButtons(); // Set remove buttons when present (could use Observer)
-    Events.setCheckboxes();
+    Events.setCheckboxes(); // Set checkbox buttons
+    Events.setAddBook(); // Set add book button
   }
   
   static bookCard(book, index) {
@@ -127,6 +115,17 @@ class Display {
 }
 
 class Events {
+  static showForm() {
+    const form = document.querySelector('#bookForm');
+    form.classList.add('show_form');
+    form.addEventListener('submit', lib.addBookByForm.bind(lib));
+  }
+
+  static setAddBook() {
+    const addButton = document.querySelector('#addButton');
+    addButton.addEventListener('click', this.showForm);
+  }
+
   static removeBook() {
     lib.allBooks.splice(this.parentElement.parentElement.dataset.index, 1);
     lib.saveLibrary();
@@ -155,15 +154,23 @@ class Events {
   }
 }
 
+// For showing the FORM
+// function showForm() {
+//   form.classList.add('show_form');
+// }
+
+const pride = new Book({title: 'Pride and Prejudice', author: 'Jane Austen', pages: 279, read: 'no'});
+const thief = new Book({title: 'The Book Thief', author: 'Markus Zusak', pages: 552, read: 'yes'});
+const farm = new Book({title: 'Animal Farm', author: 'George Orwell', pages: 141, read: 'yes'});
+
+
+let lib = new Library();
+lib.addBook(pride);
+lib.addBook(thief);
+lib.addBook(farm);
+
 lib.loadLibrary();
 Display.displayBooks();
-// Load then, display all books at beginning
 
-// For showing the FORM
-function showForm() {
-  form.classList.add('show_form');
-}
-
-form.addEventListener('submit', lib.addBookByForm.bind(lib));
-addButton.addEventListener('click', showForm);
+// MINMAX GRID SHIZZLE
 
