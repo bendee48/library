@@ -90,16 +90,12 @@ lib.addBook(pride);
 lib.addBook(thief);
 lib.addBook(farm);
 
-    card.setAttribute('data-index', index);
-    card.classList.add('card');
-    card.append(cardBody, cardFooter);
+const addButton = document.querySelector('#addButton');
 
-    return card;
-}
-
-function displayBooks() {
-  const container = document.querySelector('.books-container');
-  container.innerHTML = null;
+class Display {
+  static displayBooks() {
+    let container = document.querySelector('.books-container');
+    let html = "";
 
     console.log(lib.allBooks)
     lib.allBooks.forEach((book, idx) => {
@@ -129,22 +125,27 @@ function displayBooks() {
   }
 }
 
-function showForm() {
-  form.classList.add('show_form');
-}
 
-function removeBook() {
-  library.splice(this.parentElement.parentElement.dataset.index, 1);
-  saveLibrary();
-  displayBooks();
+class Events {
+  static removeBook() {
+    lib.allBooks.splice(this.parentElement.parentElement.dataset.index, 1);
+    lib.saveLibrary();
+    Display.displayBooks();
+  }
+  
+  static setRemoveButtons() {
+    let removeButtons = document.querySelectorAll('.btn-remove');
+    removeButtons.forEach(btn => btn.addEventListener('click', Events.removeBook));
+  }
 }
 
 lib.loadLibrary();
 Display.displayBooks();
 // Load then, display all books at beginning
 
-function saveLibrary() {
-  localStorage.setItem("library", JSON.stringify(library))
+// For showing the FORM
+function showForm() {
+  form.classList.add('show_form');
 }
 
 // function toggleRead() {
@@ -152,7 +153,7 @@ function saveLibrary() {
 //   book.read = this.checked;
 // }
 
-form.addEventListener('submit', addBook);
+form.addEventListener('submit', lib.addBookByForm.bind(lib));
 addButton.addEventListener('click', showForm);
 
 
