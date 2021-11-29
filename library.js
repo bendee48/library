@@ -103,6 +103,7 @@ class Display {
     });
     container.innerHTML = html;
     Events.setRemoveButtons(); // Set remove buttons when present (could use Observer)
+    Events.setCheckboxes();
   }
   
   static bookCard(book, index) {
@@ -125,7 +126,6 @@ class Display {
   }
 }
 
-
 class Events {
   static removeBook() {
     lib.allBooks.splice(this.parentElement.parentElement.dataset.index, 1);
@@ -135,7 +135,23 @@ class Events {
   
   static setRemoveButtons() {
     let removeButtons = document.querySelectorAll('.btn-remove');
-    removeButtons.forEach(btn => btn.addEventListener('click', Events.removeBook));
+    removeButtons.forEach(btn => btn.addEventListener('click', this.removeBook));
+  }
+
+  static toggleRead(e) {
+    let index = e.path[3].dataset.index;
+    let book = lib.allBooks[index];
+    if (book._read === 'yes') {
+      book._read = 'no';
+    } else {
+      book._read = 'yes';
+    }
+    lib.saveLibrary();
+  }
+
+  static setCheckboxes() {
+    let checkboxes = document.querySelectorAll('[name="readCheckbox"]');
+    checkboxes.forEach(box => box.addEventListener('change', this.toggleRead));
   }
 }
 
@@ -148,15 +164,6 @@ function showForm() {
   form.classList.add('show_form');
 }
 
-// function toggleRead() {
-//   const book = library[this.parentElement.parentElement.parentElement.dataset.index];
-//   book.read = this.checked;
-// }
-
 form.addEventListener('submit', lib.addBookByForm.bind(lib));
 addButton.addEventListener('click', showForm);
 
-
-
-// MOVE LOAD LIB TO LIBRARY CLASS
-// Save read check?
