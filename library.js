@@ -45,8 +45,6 @@ const farm = new Book({title: 'Animal Farm', author: 'George Orwell', pages: 141
 
 const form = document.querySelector('#bookForm');
 
-  return cardBody;
-}
 
 class Library {
   library = [];
@@ -67,32 +65,30 @@ class Library {
 
     this.library.push(book);
     form.reset();
-    // SAVE LIBRARY for cache save
-    // REDISPLAY BOOKS
+    this.saveLibrary();
+    Display.displayBooks(); // REDISPLAY BOOKS
   }
 
   get allBooks() {
     return this.library;
   }
+
+  saveLibrary() {
+    localStorage.setItem("library", JSON.stringify(lib.allBooks));
+  }
+
+  loadLibrary() {
+    if (localStorage.getItem("library")) {
+      console.log(lib.allBooks)
+      lib.library = JSON.parse(localStorage.getItem("library"));
+    } 
+  }
 }
 
-let library = new Library();
-library.addBook(pride);
-library.addBook(thief);
-library.addBook(farm);
-
-  cardFooter.classList.add('card-footer');
-  cardFooter.append(removeButton);
-  cardFooter.append(readCheckboxContainer);
-  readCheckboxContainer.append(readCheckbox, readCheckboxLabel);
-
-  return cardFooter;
-}
-
-function bookCard(book, index) {
-    const card = document.createElement('div');
-    const cardBody = bookCardBody(book);
-    const cardFooter = bookCardFooter(book);
+let lib = new Library();
+lib.addBook(pride);
+lib.addBook(thief);
+lib.addBook(farm);
 
     card.setAttribute('data-index', index);
     card.classList.add('card');
@@ -105,10 +101,32 @@ function displayBooks() {
   const container = document.querySelector('.books-container');
   container.innerHTML = null;
 
-  library.forEach((book, index) => {
-    const card = bookCard(book, index);    
-    container.append(card);
-  });
+    console.log(lib.allBooks)
+    lib.allBooks.forEach((book, idx) => {
+      html += this.bookCard(book, idx);
+    });
+    container.innerHTML = html;
+    Events.setRemoveButtons(); // Set remove buttons when present (could use Observer)
+  }
+  
+  static bookCard(book, index) {
+    let check = book._read === 'yes' ? 'checked' : null;
+
+    return `<div data-index="${index}" class="card">
+              <div class="card-body">
+                <h3>${book._title}</h3>
+                <h5>${book._author}</h5>
+                <p>Pages: ${book._pages}</p>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-remove">Remove</button>
+                <div id="checkboxContainer">
+                  <input type="checkbox" name="readCheckbox" id="readCheckbox" ${check} required>
+                  <label>read?</label>
+                </div>
+              </div>
+            </div>`
+  }
 }
 
 function showForm() {
@@ -121,25 +139,23 @@ function removeBook() {
   displayBooks();
 }
 
-function toggleRead() {
-  const book = library[this.parentElement.parentElement.parentElement.dataset.index];
-  book.read = this.checked;
-}
+lib.loadLibrary();
+Display.displayBooks();
+// Load then, display all books at beginning
 
 function saveLibrary() {
   localStorage.setItem("library", JSON.stringify(library))
 }
 
-function loadLibrary() {
-  if (localStorage.getItem('library')) {
-    library = JSON.parse(localStorage.getItem('library'));
-  } 
-}
+// function toggleRead() {
+//   const book = library[this.parentElement.parentElement.parentElement.dataset.index];
+//   book.read = this.checked;
+// }
 
 form.addEventListener('submit', addBook);
 addButton.addEventListener('click', showForm);
 
-loadLibrary();
-displayBooks();
 
 
+// MOVE LOAD LIB TO LIBRARY CLASS
+// Save read check?
