@@ -74,7 +74,6 @@ class Library {
 
   loadLibrary() {
     if (localStorage.getItem("library")) {
-      console.log(lib.allBooks)
       lib.library = JSON.parse(localStorage.getItem("library"));
     } 
   }
@@ -154,15 +153,9 @@ class Events {
   }
 }
 
-// For showing the FORM
-// function showForm() {
-//   form.classList.add('show_form');
-// }
-
 const pride = new Book({title: 'Pride and Prejudice', author: 'Jane Austen', pages: 279, read: 'no'});
 const thief = new Book({title: 'The Book Thief', author: 'Markus Zusak', pages: 552, read: 'yes'});
 const farm = new Book({title: 'Animal Farm', author: 'George Orwell', pages: 141, read: 'yes'});
-
 
 let lib = new Library();
 lib.addBook(pride);
@@ -171,6 +164,7 @@ lib.addBook(farm);
 
 lib.loadLibrary();
 Display.displayBooks();
+// Load library (if there) and display any books on page load
 
 // MINMAX GRID SHIZZLE
 
