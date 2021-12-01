@@ -15,4 +15,7 @@ Building an app for an online library (via the [Odin Project](https://www.theodi
   - CSS
   - JavaScript (Vanilla)
 
+### Additions
+  - Refactored to make use of Javascript Class syntax
+
   [Live Version](https://bendee48.github.io/library/)
