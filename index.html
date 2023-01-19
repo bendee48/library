@@ -13,9 +13,9 @@
     <header>
       <button id="addButton" class="btn">Add a new Book</button>
       <form action="" method="" id="bookForm">
-        <input type="text" name="title" id="title" placeholder="title" required>
-        <input type="text" name="author" id="author" placeholder="author" required>
-        <input type="number" name="pages" id="pages" placeholder="pages" required>
+        <input type="text" name="title" id="title" placeholder="title" maxlength="50" required>
+        <input type="text" name="author" id="author" placeholder="author" maxlength="30" required>
+        <input type="number" name="pages" id="pages" placeholder="pages" max='100000' required>
         <fieldset>
           <legend>Read?</legend>
           <input type="radio" name="read" id="readYes" value="yes" required>
